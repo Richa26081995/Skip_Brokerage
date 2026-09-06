@@ -1,14 +1,12 @@
 import { useState } from "react";
 
-const SearchBar = () => {
+const SearchBar = ({ onExplore }) => {
   const [selectedType, setSelectedType] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [query, setQuery] = useState("");
 
   const types = ["Apartment", "Villa", "Plot", "Office"];
   const cities = ["Bengaluru", "Mumbai", "Delhi", "Hyderabad"];
-
-  const destination = `/?type=${encodeURIComponent(selectedType)}&city=${encodeURIComponent(selectedCity)}&search=${encodeURIComponent(query)}`;
 
   return (
     <div className="mt-6 flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-lg sm:p-6 lg:flex-row lg:rounded-3xl lg:p-8">
@@ -39,12 +37,13 @@ const SearchBar = () => {
         />
       </div>
 
-      <a
-        href={destination}
+      <button
+        type="button"
+        onClick={onExplore}
         className="mt-4 w-full whitespace-nowrap rounded-full bg-green-500 px-6 py-3 text-center text-sm font-medium text-white transition hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300 sm:px-8 sm:text-base lg:mt-0 lg:w-auto"
       >
         Explore Now <span aria-hidden="true">→</span>
-      </a>
+      </button>
     </div>
   );
 };

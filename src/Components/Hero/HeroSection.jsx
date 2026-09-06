@@ -1,7 +1,7 @@
 import SearchBar from "../SearchBar/SearchBar";
 import heroImage from "../../assets/hero-img.png";
 
-const Hero = () => {
+const Hero = ({ onExplore }) => {
   return (
     <div className="px-4 md:px-10">
       <div className="relative rounded-3xl overflow-hidden">
@@ -39,7 +39,7 @@ const Hero = () => {
 
           {/* Search */}
           <div className="mt-6">
-            <SearchBar />
+            <SearchBar onExplore={onExplore} />
           </div>
 
         </div>
