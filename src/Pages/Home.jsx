@@ -26,8 +26,8 @@ const Home = () => {
 
   return (
     <div>
-      <Navbar onPostProperty={() => setIsPostPropertyOpen(true)}/>
-      <Hero onExplore={() => setPage('listing')}/>
+      <Navbar onPostProperty={openPostProperty}/>
+      <Hero onExplore={() => setPage('listing')} onPostProperty={openPostProperty}/>
       <InfoCards/>
       {isPostPropertyOpen && <PostProperty onClose={() => setIsPostPropertyOpen(false)}/>} 
     </div>

@@ -48,6 +48,64 @@ const ChoiceGroup = ({ label, options }) => {
   );
 };
 
+const PropertyTypeChoices = () => {
+  const [category, setCategory] = useState("Residential");
+  const [propertyType, setPropertyType] = useState("");
+
+  const residentialTypes = [
+    "Flat/Apartment",
+    "Independent House / Villa",
+    "Builder Floor",
+    "Plot / Land",
+    "1 RK/ Studio Apartment",
+    "Serviced Apartment",
+    "Farmhouse",
+    "Other",
+  ];
+
+  const commercialTypes = ["Office", "Retail", "Plot / Land", "Storage", "Industry", "Hospitality", "Other"];
+  const types = category === "Residential" ? residentialTypes : commercialTypes;
+
+  return (
+    <div>
+      <p className="mb-3 text-sm font-medium text-[#272727]">And it&apos;s a ...</p>
+      <div className="flex gap-6">
+        {["Residential", "Commercial"].map((item) => (
+          <label key={item} className="flex cursor-pointer items-center gap-2 text-sm text-gray-700">
+            <input
+              type="radio"
+              name="property-category"
+              checked={category === item}
+              onChange={() => {
+                setCategory(item);
+                setPropertyType("");
+              }}
+              className="h-4 w-4 accent-[#1688e5]"
+            />
+            {item}
+          </label>
+        ))}
+      </div>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {types.map((type) => (
+          <button
+            key={type}
+            type="button"
+            onClick={() => setPropertyType(type)}
+            className={`rounded-full border px-4 py-2 text-sm transition ${
+              propertyType === type
+                ? "border-[#1688e5] bg-[#eaf5ff] text-[#126fba]"
+                : "border-gray-200 bg-white text-gray-600 hover:border-[#1688e5]"
+            }`}
+          >
+            {type}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const UploadBox = ({ title, description, buttonLabel }) => (
   <div className="rounded-lg border border-gray-300 p-5">
     <h3 className="text-base font-medium text-[#272727]">{title}</h3>
@@ -72,8 +130,7 @@ const StepContent = ({ step, onStart }) => {
           <p className="mt-2 text-sm text-gray-500">Add basic details to get started.</p>
         </div>
         <ChoiceGroup label="You&apos;re looking to ..." options={["Sell", "Rent / Lease", "PG"]} />
-        <ChoiceGroup label="And it&apos;s a ..." options={["Residential", "Commercial"]} />
-        <ChoiceGroup label="Property type" options={["Flat/Apartment", "Independent House / Villa", "Builder Floor", "Plot / Land", "More"]} />
+        <PropertyTypeChoices />
         <div>
           <label className="mb-2 block text-sm font-medium text-[#272727]">Your contact details for the buyer to reach you</label>
           <input

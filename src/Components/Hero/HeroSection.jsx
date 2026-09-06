@@ -1,7 +1,7 @@
 import SearchBar from "../SearchBar/SearchBar";
 import heroImage from "../../assets/hero-img.png";
 
-const Hero = ({ onExplore }) => {
+const Hero = ({ onExplore, onPostProperty }) => {
   return (
     <div className="px-4 md:px-10">
       <div className="relative rounded-3xl overflow-hidden">
@@ -30,6 +30,7 @@ const Hero = ({ onExplore }) => {
             {["Buy", "Rent", "Co-living/PG", "Post Property"].map((tab) => (
               <button
                 key={tab}
+                onClick={tab === "Post Property" ? onPostProperty : undefined}
                 className="bg-green-500 px-4 py-2 rounded-full text-sm md:text-base"
               >
                 {tab}
