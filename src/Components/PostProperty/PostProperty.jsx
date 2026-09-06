@@ -63,17 +63,29 @@ const UploadBox = ({ title, description, buttonLabel }) => (
   </div>
 );
 
-const StepContent = ({ step }) => {
+const StepContent = ({ step, onStart }) => {
   if (step === 0) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-5">
         <div>
-          <h2 className="text-2xl font-semibold text-[#202020]">New to SkipBrokerage?</h2>
-          <p className="mt-2 text-sm text-gray-500">Tell us a little about the property you want to post.</p>
+          <h2 className="text-2xl font-semibold text-[#202020]">Start posting your property, it&apos;s free</h2>
+          <p className="mt-2 text-sm text-gray-500">Add basic details to get started.</p>
         </div>
-        <ChoiceGroup label="Looking to" options={["Rent/Lease", "Sell"]} />
-        <ChoiceGroup label="Property Type" options={["Residential", "Commercial", "Plot/Land"]} />
-        <Input label="Property name" placeholder="Enter your property name" />
+        <ChoiceGroup label="You&apos;re looking to ..." options={["Sell", "Rent / Lease", "PG"]} />
+        <ChoiceGroup label="And it&apos;s a ..." options={["Residential", "Commercial"]} />
+        <ChoiceGroup label="Property type" options={["Flat/Apartment", "Independent House / Villa", "Builder Floor", "Plot / Land", "More"]} />
+        <div>
+          <label className="mb-2 block text-sm font-medium text-[#272727]">Your contact details for the buyer to reach you</label>
+          <input
+            type="tel"
+            placeholder="Phone Number"
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm outline-none focus:border-[#6cbd3f]"
+          />
+          <p className="mt-2 text-xs text-gray-500">Are you a registered user? <button type="button" className="font-medium text-[#6cbd3f]">Login</button></p>
+        </div>
+        <button type="button" onClick={onStart} className="w-full rounded-lg bg-[#272727] px-5 py-3 text-sm font-semibold text-white transition hover:bg-black">
+          Start now
+        </button>
       </div>
     );
   }
@@ -209,8 +221,8 @@ const PostProperty = ({ onClose }) => {
               </div>
             ) : (
               <>
-                <StepContent step={currentStep} />
-                <div className="mt-8 flex flex-wrap justify-between gap-3 border-t border-gray-200 pt-6">
+                <StepContent step={currentStep} onStart={nextStep} />
+                <div className={`${currentStep === 0 ? "hidden" : ""} mt-8 flex flex-wrap justify-between gap-3 border-t border-gray-200 pt-6`}>
                   <button type="button" onClick={() => setCurrentStep((step) => Math.max(0, step - 1))} disabled={currentStep === 0} className="rounded-lg border border-gray-300 px-8 py-3 text-sm font-medium text-gray-600 disabled:cursor-not-allowed disabled:opacity-40">Back</button>
                   <button type="button" onClick={nextStep} className="rounded-lg bg-[#272727] px-10 py-3 text-sm font-semibold text-white transition hover:bg-black">{currentStep === steps.length - 1 ? "Submit Property" : "Continue"}</button>
                 </div>
