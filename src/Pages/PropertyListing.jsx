@@ -8,6 +8,7 @@ const PropertyListing = ({ onBack, onPropertyClick, onPostProperty }) => {
   const [postedBy, setPostedBy] = useState("Dealer");
   const [budget, setBudget] = useState(0);
   const [area, setArea] = useState(0);
+  const [showFilters, setShowFilters] = useState(false);
 
   const filterButton = (selected) =>
     `rounded-full border px-3 py-1 text-[10px] transition ${
@@ -44,11 +45,20 @@ const PropertyListing = ({ onBack, onPropertyClick, onPostProperty }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen w-full overflow-x-hidden bg-white">
       <PropertyHeader onBack={onBack} onPostProperty={onPostProperty} />
 
-      <main className="mx-auto grid max-w-7xl gap-6 bg-[#f5faef] p-5 sm:p-8 lg:grid-cols-[290px_1fr] lg:p-12">
-        <aside className="space-y-4">
+      <main className="mx-auto w-full max-w-7xl min-w-0 overflow-x-hidden bg-[#f5faef] p-3 sm:p-6 lg:grid lg:grid-cols-[290px_1fr] lg:gap-6 lg:p-12">
+        <button
+          type="button"
+          onClick={() => setShowFilters(!showFilters)}
+          className="mb-4 flex w-full items-center justify-between rounded-xl bg-white px-4 py-3 text-sm font-semibold lg:hidden"
+        >
+          Filters
+          <span>{showFilters ? "−" : "+"}</span>
+        </button>
+
+        <aside className={`${showFilters ? "block" : "hidden"} space-y-4 lg:block`}>
           <div className="rounded-2xl bg-white p-6">
             <div className="flex items-center justify-between">
               <h2 className="font-semibold">Budget</h2>
@@ -124,7 +134,7 @@ const PropertyListing = ({ onBack, onPropertyClick, onPostProperty }) => {
           </div>
         </aside>
 
-        <section className="space-y-5">
+        <section className="min-w-0 space-y-5">
           <div>
             <h1 className="text-2xl font-bold sm:text-3xl">Properties in your area</h1>
             <p className="mt-1 text-sm text-gray-500">Find a home that fits your needs.</p>
@@ -132,30 +142,30 @@ const PropertyListing = ({ onBack, onPropertyClick, onPostProperty }) => {
 
           {properties.map((property) => (
             <article
-              key={property}
+              key={property.id}
               onClick={() => onPropertyClick(property)}
               onKeyDown={(event) => event.key === "Enter" && onPropertyClick(property)}
               role="button"
               tabIndex="0"
-              className="grid w-full cursor-pointer gap-5 rounded-2xl bg-white p-5 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-lg md:grid-cols-[1fr_1.1fr]"
+              className="grid w-full min-w-0 cursor-pointer gap-4 overflow-hidden rounded-2xl bg-white p-4 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-lg sm:gap-5 sm:p-5 lg:grid-cols-[1fr_1.1fr]"
             >
-              <img src={heroImage} alt={property.name} className="h-48 w-full rounded-xl object-cover sm:h-64" />
-              <div className="py-2">
-                <h2 className="text-xl font-bold">{property.name}</h2>
+              <img src={heroImage} alt={property.name} className="block h-auto w-full max-w-full rounded-xl lg:h-full lg:min-h-70 lg:object-cover" />
+              <div className="min-w-0 py-2">
+                <h2 className="text-lg font-bold sm:text-xl">{property.name}</h2>
                 <p className="mt-2 text-sm text-gray-600">{property.location}</p>
-                <div className="mt-6 grid grid-cols-3 gap-3 text-sm">
+                <div className="mt-5 grid grid-cols-1 gap-3 text-sm sm:grid-cols-3">
                   <div><p className="font-bold">{property.price}</p><p className="mt-1 text-gray-500">Price</p></div>
                   <div><p className="font-bold">{property.area}</p><p className="mt-1 text-gray-500">Built up Area</p></div>
                   <div><p className="font-bold">{property.bedrooms}</p><p className="mt-1 text-gray-500">Ready to move</p></div>
                 </div>
-                <p className="mt-5 text-sm"><strong>Highlights:</strong> {property.highlights.map((item) => <span key={item} className="ml-1 rounded bg-[#eff8e9] px-2 py-1 text-[10px]">{item}</span>)}</p>
-                <p className="mt-5 truncate text-xs text-gray-500">{property.description}</p>
+                <p className="mt-5 wrap-break-word text-sm"><strong>Highlights:</strong> {property.highlights.map((item) => <span key={item} className="ml-1 inline-block rounded bg-[#eff8e9] px-2 py-1 text-[10px]">{item}</span>)}</p>
+                <p className="mt-5 wrap-break-word text-xs text-gray-500">{property.description}</p>
                 <button type="button" onClick={(event) => { event.stopPropagation(); onPropertyClick(property); }} className="mt-4 text-sm font-semibold text-[#6cbd3f] underline-offset-4 transition hover:text-[#579b31] hover:underline">
                   View Details <span aria-hidden="true">→</span>
                 </button>
-                <div className="mt-4 flex items-center justify-between border-t pt-3 text-xs text-gray-600">
+                <div className="mt-4 flex flex-col gap-3 border-t pt-3 text-xs text-gray-600 sm:flex-row sm:items-center sm:justify-between">
                   <span><span className="mr-2 inline-block h-4 w-4 rounded-full bg-[#6cbd3f] align-middle" />{property.seller}<br />{property.sellerType} · Posted recently</span>
-                  <button type="button" onClick={(event) => event.stopPropagation()} className="rounded-md bg-[#6cbd3f] px-4 py-1.5 text-xs font-medium text-white transition hover:bg-[#579b31]">Contact</button>
+                  <button type="button" onClick={(event) => event.stopPropagation()} className="w-full rounded-md bg-[#6cbd3f] px-4 py-2 text-xs font-medium text-white transition hover:bg-[#579b31] sm:w-auto">Contact</button>
                 </div>
               </div>
             </article>
