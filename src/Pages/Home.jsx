@@ -10,13 +10,18 @@ import PropertyDetail from './PropertyDetail'
 const Home = () => {
   const [isPostPropertyOpen, setIsPostPropertyOpen] = useState(false)
   const [page, setPage] = useState('home')
+  const [selectedProperty, setSelectedProperty] = useState(null)
+  const openPostProperty = () => {
+    setPage('home')
+    setIsPostPropertyOpen(true)
+  }
 
   if (page === 'listing') {
-    return <PropertyListing onBack={() => setPage('home')} onPropertyClick={() => setPage('detail')} />
+    return <PropertyListing onBack={() => setPage('home')} onPropertyClick={(property) => { setSelectedProperty(property); setPage('detail') }} onPostProperty={openPostProperty} />
   }
 
   if (page === 'detail') {
-    return <PropertyDetail onBack={() => setPage('listing')} />
+    return <PropertyDetail property={selectedProperty} onBack={() => setPage('listing')} onPostProperty={openPostProperty} />
   }
 
   return (
